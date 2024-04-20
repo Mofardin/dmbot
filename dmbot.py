@@ -14,6 +14,7 @@ import pandas as pd
 import os
 import openpyxl
 import fsspec
+
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
@@ -26,8 +27,14 @@ with open("accs.txt", "r") as f:
         user,password = line.split()
         accs[user] = password
 
-#print(accs)
 
+def add_acc2():
+    add_acc(user_var.get(), pass_var.get())
+#print(accs)
+def add_acc(usr,pw):
+    with open("accs.txt", "a") as f:
+        f.write(usr + ' ' + pw)
+        f.write("\n")
 
 #################
 ##MAIN FUNCTION##
@@ -85,7 +92,7 @@ def main(user,password):
 
     #READING EXCEL
     col = column_option.get()
-    df = pd.read_excel("C://spreadsheets//"+recipients.get(), usecols=col)
+    df = pd.read_excel("spreadsheets//"+recipients.get(), usecols=col)
     links = set()
     for i in df.values:
         links.add(i[0])
@@ -178,17 +185,17 @@ def wrapper():
 window = ctk.CTk()
 window.geometry("525x500")
 
-ctk.CTkLabel(window, text="AUTO MESSAGER", font=("helvetica",20,"bold"), text_color="#56A0D3").grid(row=0,column=2,pady=10)
+ctk.CTkLabel(window, text="IG OUTREACH TOOL", font=("helvetica",20,"bold"), text_color="#FFCC70").grid(row=0,column=2,pady=10)
 
 ####COLUMN = 0##################################################
 ctk.CTkLabel(window, text="Enter Username:").grid(row=0,column=0,padx=50)
 user_var = ctk.StringVar()
-user_var.set("slimpsonbart@gmail.com")
+#user_var.set("slimpsonbart@gmail.com")
 user_entry = ctk.CTkEntry(window, textvariable=user_var)
 user_entry.grid(row=1,column=0)
 
 pass_var = ctk.StringVar()
-pass_var.set("bartolomejjedekrastavce")
+#pass_var.set("bartolomejjedekrastavce")
 ctk.CTkLabel(window, text="Enter Password:").grid(row=2,column=0)
 pass_entry = ctk.CTkEntry(window, textvariable=pass_var)
 pass_entry.grid(row=3,column=0)
@@ -197,17 +204,26 @@ pass_entry.grid(row=3,column=0)
 
 #dropdown
 ctk.CTkLabel(window, text="Recipients:").grid(row=1,column=2)
-options = os.listdir("C:\\spreadsheets")
+options = os.listdir("spreadsheets")
 
 selected_option = ctk.StringVar()
 selected_option.set(options[0])
-recipients = ctk.CTkOptionMenu(window, variable=selected_option, values= options)
+recipients = ctk.CTkOptionMenu(window, 
+                                variable=selected_option, 
+                                values= options,
+                                text_color="black",
+                                bg_color="transparent",
+                                fg_color="#b8a85e",
+                                button_color="#b39f49",
+                                dropdown_fg_color="#8f803f",
+                                button_hover_color="#8f803f",
+                                dropdown_hover_color="#8f803f",)
 recipients.grid(row=2,column=2)
 
-ctk.CTkLabel(window,text="Column:").place(x=428,y=49)
+ctk.CTkLabel(window,text="Column:").place(x=435,y=49)
 column_option = ctk.StringVar()
 column_option.set("D")
-column_entry = ctk.CTkEntry(window, textvariable=column_option,width=46)
+column_entry = ctk.CTkEntry(window, textvariable=column_option,width=38)
 column_entry.place(x=440,y=76.5)
 
 ctk.CTkLabel(window, text="Message:").grid(row=4,column=2)
@@ -218,8 +234,32 @@ message.grid(row=6,column=2)
 
 
 button = ctk.CTkButton(window, text="SEND",
-                   command=wrapper)
+                   command=wrapper,
+                   border_width=2,
+                   border_color="#FFCC70",
+                   bg_color="transparent",
+                   fg_color="transparent",
+                   hover_color="#8f803f")
 button.grid(row=7,column=2,pady=10)
+
+button2 = ctk.CTkButton(window, text="ADD",
+                   command=add_acc2,
+                   border_width=2,
+                   border_color="#FFCC70",
+                   bg_color="transparent",
+                   fg_color="transparent",
+                   hover_color="#8f803f")
+button2.grid(row=4,column=0,pady=16)
+
+canvas = ctk.CTkCanvas(window, 
+                       width=3, 
+                       height=665, 
+                       bg="#FFCC70", 
+                       highlightthickness=1, 
+                       highlightbackground="#212121")
+canvas.place(x = 176.5,y=-3)
+line = canvas.create_rectangle(-1,-1,1000,1000,fill = "#212121",width=5)
+canvas.update()
 
 
 window.mainloop()
