@@ -135,7 +135,7 @@ def main(user,password):
         except:
             continue
         try:
-            WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[text()="Message"]'))).click()
+            WebDriverWait(browser, 2).until(EC.element_to_be_clickable((By.XPATH, '//*[text()="Message"]'))).click()
         except TimeoutException:
             with open("eliminate.txt", "a") as f:
                 f.write(i)
@@ -144,7 +144,7 @@ def main(user,password):
             
         while True:
             if "direct" in browser.current_url:
-                WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[text()="Message..."]')))
+                WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, '//*[text()="Message..."]'))) ######CHECK IF MESSAGE IS TYPEABLE
                 msg = message.get('1.0', ctk.END)
                 actions.send_keys(msg)
                 actions.perform()
