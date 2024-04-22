@@ -183,6 +183,7 @@ def wrapper():
 ##GUI##
 #######
 window = ctk.CTk()
+window.title('DMbot - Rank Vision')
 window.geometry("525x500")
 
 ctk.CTkLabel(window, text="IG OUTREACH TOOL", font=("helvetica",20,"bold"), text_color="#FFCC70").grid(row=0,column=2,pady=10)
